@@ -25,6 +25,7 @@ import { ActionUIA, ActionUIAFlowsLoader } from './ActionUIA';
 import { useMatrixClient } from '../hooks/useMatrixClient';
 import { useAlive } from '../hooks/useAlive';
 import { UseStateProvider } from './UseStateProvider';
+import { startDeviceDehydration } from './DeviceDehydration';
 
 type UIACallback<T> = (
   authDict: AuthDict | null
@@ -156,6 +157,7 @@ function SetupVerification({ onComplete }: SetupVerificationProps) {
         });
 
         await crypto.resetKeyBackup();
+        await startDeviceDehydration(crypto);
 
         onComplete(recoveryKeyData.encodedPrivateKey);
       },
